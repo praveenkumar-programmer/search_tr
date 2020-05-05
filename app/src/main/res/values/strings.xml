@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SearchTR</string>
+    <string name="action_settings">Settings</string>
+    <string name="toolbar_title">SearchTR</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Type name…</string>
+</resources>
