@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
 
     @Override
     public void onContactSelected(Contact contact) {
-        Toast.makeText(getApplicationContext(), "Selected: " + contact.getName() + ", " + contact.getUrl(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), "Selected: " + contact.getName() + ", " + contact.getUrl(), Toast.LENGTH_LONG).show();
         String url = contact.getUrl();
 
         Intent i = new Intent(Intent.ACTION_VIEW);
