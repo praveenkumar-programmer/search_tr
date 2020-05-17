@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:background="@drawable/user_row_item_bg"
     android:clickable="true"
     android:paddingBottom="@dimen/row_padding"
     android:paddingLeft="@dimen/activity_margin"
@@ -20,21 +20,23 @@
 
     <TextView
         android:id="@+id/name"
+        android:layout_margin="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/thumbnail"
         android:fontFamily="sans-serif-medium"
-        android:textColor="@color/contact_name"
+        android:textColor="@color/movie_name"
         android:textSize="@dimen/contact_name"
         tools:ignore="SpUsage" />
 
     <TextView
-        android:id="@+id/url"
+        android:id="@+id/full_name"
+        android:layout_margin="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
         android:layout_toEndOf="@id/thumbnail"
-        android:textColor="@color/contact_number"
+        android:textColor="@color/movie_number"
         android:textSize="@dimen/contact_number"
         tools:ignore="SpUsage" />
 

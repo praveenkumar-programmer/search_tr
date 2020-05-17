@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SearchTR.iml" filepath="$PROJECT_DIR$/SearchTR.iml" group="SearchTR" />
+      <module fileurl="file://$PROJECT_DIR$/app/SearchTR-app.iml" filepath="$PROJECT_DIR$/app/SearchTR-app.iml" group="SearchTR/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="SearchTR/app" />
+      <module fileurl="file://$PROJECT_DIR$/searchtr-SearchTR.iml" filepath="$PROJECT_DIR$/searchtr-SearchTR.iml" group="SearchTR" />
     </modules>
   </component>
 </project>

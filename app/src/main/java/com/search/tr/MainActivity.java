@@ -1,8 +1,10 @@
 package com.search.tr;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -33,13 +35,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements ContactsAdapter.ContactsAdapterListener {
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.ContactsAdapterListener {
     private static final String TAG = MainActivity.class.getSimpleName();
-    private List<Contact> contactList;
-    private ContactsAdapter mAdapter;
+    private List<Movie> movieList;
+    private MoviesAdapter mAdapter;
     private SearchView searchView;
+    private ProgressDialog loadingDialog;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor spe;
 
-    // url to fetch contacts json
+    // url to fetch movies json
     private static final String URL = "https://harishwarrior.github.io/JsonHosting/contacts.json";
 
     @Override
@@ -49,16 +54,19 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        sp = getSharedPreferences("currentItem",0);
+        spe = sp.edit();
+
         // toolbar fancy stuff
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.toolbar_title);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        contactList = new ArrayList<>();
-        mAdapter = new ContactsAdapter(contactList, this);
+        movieList = new ArrayList<>();
+        mAdapter = new MoviesAdapter(movieList, this);
 
         // white background notification bar
-        whiteNotificationBar(recyclerView);
+//        whiteNotificationBar(recyclerView);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -66,31 +74,36 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
         recyclerView.addItemDecoration(new MyDividerItemDecoration(this, DividerItemDecoration.VERTICAL, 36));
         recyclerView.setAdapter(mAdapter);
 
-        fetchContacts();
+        loadingDialog = new ProgressDialog(MainActivity.this);
+        loadingDialog.setMessage("Loading..");
+        loadingDialog.setTitle("Fetch Data");
+        loadingDialog.setIndeterminate(false);
+        loadingDialog.setCancelable(true);
+        loadingDialog.show();
+
+        fetchMovies();
     }
 
-    /**
-     * fetches json by making http calls
-     */
-    private void fetchContacts() {
+    private void fetchMovies() {
         JsonArrayRequest request = new JsonArrayRequest(URL,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         if (response == null) {
-                            Toast.makeText(getApplicationContext(), "Couldn't fetch the contacts! Pleas try again.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Couldn't fetch movies! Please try again.", Toast.LENGTH_LONG).show();
                             return;
                         }
 
-                        List<Contact> items = new Gson().fromJson(response.toString(), new TypeToken<List<Contact>>() {
+                        List<Movie> items = new Gson().fromJson(response.toString(), new TypeToken<List<Movie>>() {
                         }.getType());
 
-                        // adding contacts to contacts list
-                        contactList.clear();
-                        contactList.addAll(items);
+                        // adding movies to movies list
+                        movieList.clear();
+                        movieList.addAll(items);
 
                         // refreshing recycler view
                         mAdapter.notifyDataSetChanged();
+                        loadingDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -122,7 +135,9 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
+                loadingDialog.show();
                 mAdapter.getFilter().filter(query);
+                loadingDialog.dismiss();
                 return false;
             }
 
@@ -138,9 +153,7 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -160,23 +173,30 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
         }
         super.onBackPressed();
     }
-
-    private void whiteNotificationBar(View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int flags = view.getSystemUiVisibility();
-            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            view.setSystemUiVisibility(flags);
-            getWindow().setStatusBarColor(Color.WHITE);
-        }
-    }
+//
+//    private void whiteNotificationBar(View view) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            int flags = view.getSystemUiVisibility();
+//            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+//            view.setSystemUiVisibility(flags);
+//            getWindow().setStatusBarColor(Color.WHITE);
+//        }
+//    }
 
     @Override
-    public void onContactSelected(Contact contact) {
-//        Toast.makeText(getApplicationContext(), "Selected: " + contact.getName() + ", " + contact.getUrl(), Toast.LENGTH_LONG).show();
-        String url = contact.getUrl();
+    public void onContactSelected(Movie movie) {
+        String url = movie.getUrl();
 
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
+        spe.putString("title", movie.getNormalized_name());
+        spe.putString("name", movie.getName());
+        //spe.putString("thumbnailurl", movie.getThumbNailUrl());
+        spe.putInt("noofmagnets", movie.getMagnets().size());
+
+        for(int i = 0; i < movie.getMagnets().size(); i++)
+            spe.putString("magnet"+i, movie.getMagnets().get(i));
+        spe.commit();
+
+        startActivity(new Intent(this, ViewMovieDetails.class));
     }
+
 }

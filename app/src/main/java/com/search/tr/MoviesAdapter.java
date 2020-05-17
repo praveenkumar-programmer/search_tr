@@ -5,49 +5,51 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ravi on 16/11/17.
- */
 
-public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyViewHolder>
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder>
         implements Filterable {
-    private List<Contact> contactList;
-    private List<Contact> contactListFiltered;
+    private List<Movie> movieList;
+    private List<Movie> movieListFiltered;
     private ContactsAdapterListener listener;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, magnets,url;
+        TextView name, fullName;
+        //ImageView thumbnail;
 
 
         MyViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name);
-            url = view.findViewById(R.id.url);
-
+            fullName = view.findViewById(R.id.full_name);
+            //thumbnail = view.findViewById(R.id.thumbnail);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // send selected contact in callback
-                    listener.onContactSelected(contactListFiltered.get(getAdapterPosition()));
+                    // send selected movie in callback
+                    listener.onContactSelected(movieListFiltered.get(getAdapterPosition()));
                 }
             });
         }
     }
 
 
-    ContactsAdapter(List<Contact> contactList, ContactsAdapterListener listener) {
+    MoviesAdapter(List<Movie> movieList, ContactsAdapterListener listener) {
         this.listener = listener;
-        this.contactList = contactList;
-        this.contactListFiltered = contactList;
+        this.movieList = movieList;
+        this.movieListFiltered = movieList;
     }
 
     @NonNull
@@ -61,18 +63,23 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final Contact contact = contactListFiltered.get(position);
-        holder.name.setText(contact.getName());
-//        holder.magnets.setText(contact.getMagnets());
-        holder.url.setText(contact.getUrl());
+        final Movie movie = movieListFiltered.get(position);
+        holder.name.setText(movie.getNormalized_name().toUpperCase());
+        holder.fullName.setText(movie.getName());
 
+//        RequestOptions options = new RequestOptions()
+//                .centerCrop()
+//                .placeholder(R.mipmap.ic_launcher_round)
+//                .error(R.mipmap.ic_launcher_round);
+//
+//        Glide.with(holder.itemView.getContext()).load(movie.getThumbNailUrl()).apply(options).into(holder.thumbnail);
 
 
     }
 
     @Override
     public int getItemCount() {
-        return contactListFiltered==null ? 0:contactListFiltered.size();
+        return movieListFiltered ==null ? 0: movieListFiltered.size();
     }
 
     @Override
@@ -82,35 +89,33 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
                 if (charString.isEmpty()) {
-                    contactListFiltered = contactList;
+                    movieListFiltered = movieList;
                 } else {
-                    List<Contact> filteredList = new ArrayList<>();
-                    for (Contact row : contactList) {
+                    List<Movie> filteredList = new ArrayList<>();
+                    for (Movie row : movieList) {
 
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getUrl().contains(charSequence)) {
+                        if (row.getNormalized_name().toLowerCase().contains(charString.toLowerCase()) || row.getUrl().contains(charSequence)) {
                             filteredList.add(row);
                         }
                     }
 
-                    contactListFiltered = filteredList;
+                    movieListFiltered = filteredList;
                 }
 
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = contactListFiltered;
+                filterResults.values = movieListFiltered;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                contactListFiltered = (ArrayList<Contact>) filterResults.values;
+                movieListFiltered = (ArrayList<Movie>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
     }
 
     public interface ContactsAdapterListener {
-        void onContactSelected(Contact contact);
+        void onContactSelected(Movie movie);
     }
 }
