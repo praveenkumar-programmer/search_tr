@@ -1,5 +1,6 @@
 package com.search.tr;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ClipData;
@@ -40,12 +41,12 @@ public class ViewMovieDetails extends AppCompatActivity {
         title.setText(sp.getString("title",""));
         name.setText(sp.getString("name",""));
 
-//        RequestOptions options = new RequestOptions()
-//                .centerCrop()
-//                .placeholder(R.mipmap.ic_launcher_round)
-//                .error(R.mipmap.ic_launcher_round);
-//
-//        Glide.with(this).load(sp.getString("thumbnailurl","")).apply(options).into(thumbnail);
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_round);
+
+        Glide.with(this).load(sp.getString("thumbnailurl","")).apply(options).into(thumbnail);
 
         for(int i = 0; i < sp.getInt("noofmagnets", 0); i++){
 
@@ -57,8 +58,8 @@ public class ViewMovieDetails extends AppCompatActivity {
             root.addView(layout);
 
             Button button = layout.findViewById(R.id.magnet_link_text);
-            button.setText("copy magnet link " + i);
-            button.getTag(i);
+            button.setText("copy magnet link " + (i+1));
+            button.setTag(i);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -67,7 +68,7 @@ public class ViewMovieDetails extends AppCompatActivity {
                     ClipData clip = ClipData.newPlainText("magnet", sp.getString("magnet"+ v.getTag(), ""));
                     clipboard.setPrimaryClip(clip);
 
-                    Toast.makeText(getApplicationContext(), "Magnet Link Copied to Clipboard", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), " Magnet Link Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
                 }
             });

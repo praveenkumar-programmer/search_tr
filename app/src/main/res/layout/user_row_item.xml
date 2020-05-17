@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/thumbnail"
         android:fontFamily="sans-serif-medium"
-        android:textColor="@color/movie_name"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/contact_name"
         tools:ignore="SpUsage" />
 
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
         android:layout_toEndOf="@id/thumbnail"
-        android:textColor="@color/movie_number"
+        android:textColor="@color/full_name"
         android:textSize="@dimen/contact_number"
         tools:ignore="SpUsage" />
 

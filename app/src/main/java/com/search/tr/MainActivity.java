@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Con
         spe = sp.edit();
 
         // toolbar fancy stuff
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.toolbar_title);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Con
         mAdapter = new MoviesAdapter(movieList, this);
 
         // white background notification bar
-//        whiteNotificationBar(recyclerView);
+        whiteNotificationBar(recyclerView);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Con
         recyclerView.setAdapter(mAdapter);
 
         loadingDialog = new ProgressDialog(MainActivity.this);
-        loadingDialog.setMessage("Loading..");
-        loadingDialog.setTitle("Fetch Data");
+        loadingDialog.setMessage("This may take few seconds..");
+        loadingDialog.setTitle("Loading");
         loadingDialog.setIndeterminate(false);
         loadingDialog.setCancelable(true);
         loadingDialog.show();
@@ -173,23 +173,22 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Con
         }
         super.onBackPressed();
     }
-//
-//    private void whiteNotificationBar(View view) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            int flags = view.getSystemUiVisibility();
-//            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-//            view.setSystemUiVisibility(flags);
-//            getWindow().setStatusBarColor(Color.WHITE);
-//        }
-//    }
+
+    private void whiteNotificationBar(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = view.getSystemUiVisibility();
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+            getWindow().setStatusBarColor(Color.WHITE);
+        }
+    }
 
     @Override
     public void onContactSelected(Movie movie) {
-        String url = movie.getUrl();
 
         spe.putString("title", movie.getNormalized_name());
         spe.putString("name", movie.getName());
-        //spe.putString("thumbnailurl", movie.getThumbNailUrl());
+        spe.putString("thumbnailurl", movie.getThumbNailUrl());
         spe.putInt("noofmagnets", movie.getMagnets().size());
 
         for(int i = 0; i < movie.getMagnets().size(); i++)

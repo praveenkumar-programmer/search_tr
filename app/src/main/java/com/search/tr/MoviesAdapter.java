@@ -26,14 +26,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, fullName;
-        //ImageView thumbnail;
+        ImageView thumbnail;
 
 
         MyViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name);
             fullName = view.findViewById(R.id.full_name);
-            //thumbnail = view.findViewById(R.id.thumbnail);
+            thumbnail = view.findViewById(R.id.thumbnail);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,12 +67,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         holder.name.setText(movie.getNormalized_name().toUpperCase());
         holder.fullName.setText(movie.getName());
 
-//        RequestOptions options = new RequestOptions()
-//                .centerCrop()
-//                .placeholder(R.mipmap.ic_launcher_round)
-//                .error(R.mipmap.ic_launcher_round);
-//
-//        Glide.with(holder.itemView.getContext()).load(movie.getThumbNailUrl()).apply(options).into(holder.thumbnail);
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_round);
+
+        Glide.with(holder.itemView.getContext()).load(movie.getThumbNailUrl()).apply(options).into(holder.thumbnail);
 
 
     }

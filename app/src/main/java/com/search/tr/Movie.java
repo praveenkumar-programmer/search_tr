@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Movie {
     private String normalized_name, name, url;
-    //private String thumbnailUrl;
+    //private String thumbnail_url;
     private List<String> magnets;
 
     public Movie() { }
@@ -19,6 +19,6 @@ public class Movie {
 
     public String getUrl() { return url;}
 
-    //public String getThumbNailUrl() { return thumbnailUrl;}
+    public String getThumbNailUrl() { return "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg";}
 
 }

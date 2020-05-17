@@ -3,6 +3,5 @@
     <color name="colorPrimary">#4caf50</color>
     <color name="colorPrimaryDark">#388e3c</color>
     <color name="colorAccent">#ffea00</color>
-    <color name="movie_name">#333333</color>
-    <color name="movie_number">#8c8c8c</color>
+    <color name="full_name">#8c8c8c</color>
 </resources>
