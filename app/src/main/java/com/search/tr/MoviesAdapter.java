@@ -22,7 +22,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         implements Filterable {
     private List<Movie> movieList;
     private List<Movie> movieListFiltered;
-    private ContactsAdapterListener listener;
+    private MoviesAdapterListener listener;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, fullName;
@@ -39,14 +39,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
                 @Override
                 public void onClick(View view) {
                     // send selected movie in callback
-                    listener.onContactSelected(movieListFiltered.get(getAdapterPosition()));
+                    listener.onMovieSelected(movieListFiltered.get(getAdapterPosition()));
                 }
             });
         }
     }
 
 
-    MoviesAdapter(List<Movie> movieList, ContactsAdapterListener listener) {
+    MoviesAdapter(List<Movie> movieList, MoviesAdapterListener listener) {
         this.listener = listener;
         this.movieList = movieList;
         this.movieListFiltered = movieList;
@@ -115,7 +115,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         };
     }
 
-    public interface ContactsAdapterListener {
-        void onContactSelected(Movie movie);
+    public interface MoviesAdapterListener {
+        void onMovieSelected(Movie movie);
     }
 }

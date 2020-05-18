@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,9 +32,8 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements MoviesAdapter.ContactsAdapterListener {
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private List<Movie> movieList;
     private MoviesAdapter mAdapter;
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Con
     private SharedPreferences.Editor spe;
 
     // url to fetch movies json
-    private static final String URL = "https://harishwarrior.github.io/JsonHosting/contacts.json";
+    private static final String URL = "https://harishwarrior.github.io/JsonHosting/movies.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,20 +66,25 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Con
         // white background notification bar
         whiteNotificationBar(recyclerView);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new MyDividerItemDecoration(this, DividerItemDecoration.VERTICAL, 36));
-        recyclerView.setAdapter(mAdapter);
+        if(savedInstanceState == null){
 
-        loadingDialog = new ProgressDialog(MainActivity.this);
-        loadingDialog.setMessage("This may take few seconds..");
-        loadingDialog.setTitle("Loading");
-        loadingDialog.setIndeterminate(false);
-        loadingDialog.setCancelable(true);
-        loadingDialog.show();
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.addItemDecoration(new MyDividerItemDecoration(this, DividerItemDecoration.VERTICAL, 36));
+            recyclerView.setAdapter(mAdapter);
 
-        fetchMovies();
+            loadingDialog = new ProgressDialog(MainActivity.this);
+            loadingDialog.setMessage("This may take few seconds..");
+            loadingDialog.setTitle("Loading...");
+            loadingDialog.setIndeterminate(false);
+            loadingDialog.setCancelable(true);
+            loadingDialog.show();
+
+            fetchMovies();
+
+        }
+
     }
 
     private void fetchMovies() {
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Con
                 // error in getting json
                 Log.e(TAG, "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
 
@@ -135,9 +139,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Con
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
-                loadingDialog.show();
                 mAdapter.getFilter().filter(query);
-                loadingDialog.dismiss();
                 return false;
             }
 
@@ -184,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Con
     }
 
     @Override
-    public void onContactSelected(Movie movie) {
+    public void onMovieSelected(Movie movie) {
 
         spe.putString("title", movie.getNormalized_name());
         spe.putString("name", movie.getName());

@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#388e3c</color>
     <color name="colorAccent">#ffea00</color>
     <color name="full_name">#8c8c8c</color>
+    <color name="year">#4a4a4a</color>
 </resources>

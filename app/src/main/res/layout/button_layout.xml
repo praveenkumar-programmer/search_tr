@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center|top"
+    android:orientation="horizontal">
 
     <Button
-        android:id="@+id/magnet_link_text"
+        android:id="@+id/open_magnet_link_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center|top"
         android:layout_marginBottom="20dp"
         android:padding="15dp"
         android:elevation="3dp"
         android:textColor="@android:color/white"
-        android:background="@drawable/button_background"
-        android:text="copy magnet link 1"/>
+        android:background="@drawable/button1_background"
+        android:text="open magnet link 1"/>
 
-</FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/button2_background">
+
+        <Button
+            android:id="@+id/copy_magnet_link_text"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center|top"
+            android:background="@drawable/copy_icon"
+            android:elevation="3dp"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>
