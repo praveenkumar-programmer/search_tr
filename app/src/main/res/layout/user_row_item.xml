@@ -36,6 +36,7 @@
 
 
     <TextView
+        android:id="@+id/recycler_view_quality_text"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_alignParentEnd="true"
@@ -51,7 +52,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/year"
+        android:id="@+id/recycler_view_year_text"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="10dp"
@@ -71,7 +72,7 @@
         android:layout_marginBottom="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/year"
+        android:layout_below="@id/recycler_view_year_text"
         android:layout_toEndOf="@id/thumbnail"
         android:text="full name of the movie (2010)"
         android:textColor="@color/full_name"

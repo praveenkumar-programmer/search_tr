@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     private ProgressDialog loadingDialog;
     private SharedPreferences sp;
     private SharedPreferences.Editor spe;
+    private MovieDetailsParser movieDetailsParser;
 
     // url to fetch movies json
     private static final String URL = "https://harishwarrior.github.io/JsonHosting/movies.json";
@@ -188,10 +189,17 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     @Override
     public void onMovieSelected(Movie movie) {
 
+        movieDetailsParser = new MovieDetailsParser(movie.getName());
+
         spe.putString("title", movie.getNormalized_name());
         spe.putString("name", movie.getName());
         spe.putString("thumbnailurl", movie.getThumbNailUrl());
         spe.putInt("noofmagnets", movie.getMagnets().size());
+
+        spe.putString("year", movieDetailsParser.getYear());
+        spe.putString("size", movieDetailsParser.getSize());
+        spe.putString("quality", movieDetailsParser.getQuality());
+        spe.putString("languages", movieDetailsParser.getLanguages());
 
         for(int i = 0; i < movie.getMagnets().size(); i++)
             spe.putString("magnet"+i, movie.getMagnets().get(i));

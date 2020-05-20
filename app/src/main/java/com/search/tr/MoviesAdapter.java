@@ -24,16 +24,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     private List<Movie> movieListFiltered;
     private MoviesAdapterListener listener;
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, fullName;
-        ImageView thumbnail;
+    private MovieDetailsParser movieDetailsParser;
 
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView name, fullName, year, quality;
+        ImageView thumbnail;
 
         MyViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name);
             fullName = view.findViewById(R.id.full_name);
             thumbnail = view.findViewById(R.id.thumbnail);
+            year = view.findViewById(R.id.recycler_view_year_text);
+            quality = view.findViewById(R.id.recycler_view_quality_text);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,9 +66,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
+
         final Movie movie = movieListFiltered.get(position);
+
+        movieDetailsParser = new MovieDetailsParser(movie.getName());
+
         holder.name.setText(movie.getNormalized_name().toUpperCase());
         holder.fullName.setText(movie.getName());
+        holder.year.setText(movieDetailsParser.getYear());
+        holder.quality.setText(movieDetailsParser.getQuality());
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()

@@ -34,11 +34,15 @@ public class ViewMovieDetails extends AppCompatActivity {
         sp = getSharedPreferences("currentItem", 0);
 
         TextView title = findViewById(R.id.movie_title);
-        TextView name = findViewById(R.id.movie_full_name);
         ImageView thumbnail = findViewById(R.id.movie_thumbnail);
+        TextView name = findViewById(R.id.movie_full_name);
+        TextView infoMovieName = findViewById(R.id.info_movie_name);
+        TextView infoMovieYear = findViewById(R.id.info_movie_year);
+        TextView infoMovieLanguages = findViewById(R.id.info_movie_languages);
+        TextView infoMovieQuality = findViewById(R.id.info_movie_quality);
+        TextView infoMovieSize = findViewById(R.id.info_movie_size);
 
         title.setText(sp.getString("title",""));
-        name.setText(sp.getString("name",""));
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -46,6 +50,14 @@ public class ViewMovieDetails extends AppCompatActivity {
                 .error(R.mipmap.ic_launcher_round);
 
         Glide.with(this).load(sp.getString("thumbnailurl","")).apply(options).into(thumbnail);
+
+        name.setText(sp.getString("name",""));
+
+        infoMovieName.setText(sp.getString("title", ""));
+        infoMovieYear.setText(sp.getString("year", ""));
+        infoMovieLanguages.setText(sp.getString("languages", ""));
+        infoMovieQuality.setText(sp.getString("quality", ""));
+        infoMovieSize.setText(sp.getString("size", ""));
 
         for(int i = 0; i < sp.getInt("noofmagnets", 0); i++){
 
