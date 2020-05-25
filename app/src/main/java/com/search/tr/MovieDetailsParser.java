@@ -6,47 +6,48 @@ import java.util.regex.Pattern;
 public class MovieDetailsParser {
 
     private String year, languages, quality, size;
-    private int sizeMBInInt = 0;
-    private float sizeGBInFloat = 0;
+    private int sizeInMB = 0;
 
-    private String yearRegex = "\\(\\d{4}\\)";
-    private String MBRegex = "\\d*MB";
-    private String GBRegex = "\\d*.?\\d*GB";
+    private String yearRegex = "(\\(\\d{4}\\))|(\\[\\D{4}\\])";
+    private String MBRegex = "\\d+\\s?MB";
+    private String GBRegex = "\\d+\\.?\\d*\\s?GB";
 
 
     public MovieDetailsParser(String movieName){
 
         year = reSolveRegex(yearRegex, movieName);
-        year = movieName.substring(movieName.indexOf('(') + 1, movieName.indexOf(')'));
+        year = reSolveRegex("\\d{4}", year);
 
         if(!reSolveRegex(MBRegex, movieName).equals("")){
             size = reSolveRegex(MBRegex, movieName);
-            sizeMBInInt = Integer.parseInt(size.substring(0, size.length()-2));
+            sizeInMB = Integer.parseInt(reSolveRegex("\\d+", size));
         }
         else if(!reSolveRegex(GBRegex, movieName).equals("")){
             size = reSolveRegex(GBRegex, movieName);
-            sizeGBInFloat = Float.parseFloat(size.substring(0, size.length()-2));
+            sizeInMB = (int) ((Float.parseFloat(reSolveRegex("\\d+\\.?\\d*", size))) *1024 );
         }
 
         if(movieName.contains("1080p") || movieName.contains("1080P"))
             quality = "1080P";
         else if(movieName.contains("720p") || movieName.contains("720P"))
             quality = "720P";
-        else if(sizeGBInFloat > 1 | sizeMBInInt >= 700)
+        else if(sizeInMB >= 700)
             quality = "HD";
-        else if(sizeMBInInt < 700)
+        else
             quality = "SD";
 
         if(!reSolveRegex("TAMIL", movieName).equals(""))
             languages = addLanguage(languages, "TAMIL");
-        else if(!reSolveRegex("ENGLISH", movieName).equals(""))
+        if(!reSolveRegex("ENGLISH", movieName).equals(""))
             languages = addLanguage(languages, "ENGLISH");
-        else if(!reSolveRegex("TELUN?GU", movieName).equals(""))
+        if(!reSolveRegex("TELUN?GU", movieName).equals(""))
             languages = addLanguage(languages, "TELUGU");
-        else if(!reSolveRegex("MALAI?YA+LAM", movieName).equals(""))
+        if(!reSolveRegex("MALAI?YA+LAM", movieName).equals(""))
             languages = addLanguage(languages, "MALAYALAM");
-        else if(!reSolveRegex("KAN+ADA+M?", movieName).equals(""))
+        if(!reSolveRegex("KAN+ADA+M?", movieName).equals(""))
             languages = addLanguage(languages, "KANNADA");
+        if(!reSolveRegex("HINDH?I", movieName).equals(""))
+            languages = addLanguage(languages, "HINDI");
 
 
     }
@@ -73,15 +74,13 @@ public class MovieDetailsParser {
 
 
 
-    public int getSizeMBInInt() {
-        return sizeMBInInt;
-    }
-
-    public float getSizeGBInFloat() {
-        return sizeGBInFloat;
+    public int getSizeInMB() {
+        return sizeInMB;
     }
 
     public String getSize() {
+        if(size.equals(""))
+            return "0MB";
         return size;
     }
 
@@ -90,10 +89,14 @@ public class MovieDetailsParser {
     }
 
     public String getLanguages() {
+        if(languages.equals(""))
+            return "NO INFO";
         return languages;
     }
 
     public String getYear() {
+        if(year.equals(""))
+            return "NO INFO";
         return year;
     }
 }

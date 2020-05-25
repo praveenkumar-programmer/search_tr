@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     private MovieDetailsParser movieDetailsParser;
 
     // url to fetch movies json
-    private static final String URL = "https://harishwarrior.github.io/JsonHosting/movies.json";
+    private static final String URL = "https://harishwarrior.github.io/JsonHosting/movie.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,8 +142,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
-                mAdapter.getFilter().filter(query);
-                return false;
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+                return true;
             }
 
             @Override
