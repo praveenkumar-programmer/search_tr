@@ -21,7 +21,6 @@ import com.bumptech.glide.request.RequestOptions;
 
 public class ViewMovieDetails extends AppCompatActivity {
 
-    private LinearLayout root;
     private SharedPreferences sp;
 
     @Override
@@ -29,7 +28,7 @@ public class ViewMovieDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_movie_details);
 
-        root = findViewById(R.id.magnets_layout);
+        LinearLayout root = findViewById(R.id.magnets_layout);
 
         sp = getSharedPreferences("currentItem", 0);
 
@@ -69,7 +68,7 @@ public class ViewMovieDetails extends AppCompatActivity {
 
             Button openmagnetButton = layout.findViewById(R.id.open_magnet_link_text);
             Button copymagnetButton = layout.findViewById(R.id.copy_magnet_link_text);
-            openmagnetButton.setText("open magnet link " + ((i>0)?i:""));
+            openmagnetButton.setText(String.format("open magnet link %s", (i > 0) ? i : ""));
             openmagnetButton.setTag(i);
             copymagnetButton.setTag(i);
 
@@ -97,6 +96,7 @@ public class ViewMovieDetails extends AppCompatActivity {
 
                     ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText("magnet", sp.getString("magnet"+ v.getTag(), ""));
+                    assert clipboard != null;
                     clipboard.setPrimaryClip(clip);
 
                     Toast.makeText(getApplicationContext(), "Magnet Link Copied to Clipboard", Toast.LENGTH_SHORT).show();
