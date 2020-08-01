@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#111</color>
-    <color name="colorPrimaryDark">#FFF</color>
-    <color name="colorAccent">#ea3732</color>
-    <color name="contact_name">#333333</color>
-    <color name="contact_number">#8c8c8c</color>
+    <color name="colorPrimary">#4caf50</color>
+    <color name="colorPrimaryDark">#388e3c</color>
+    <color name="colorAccent">#ffea00</color>
+    <color name="full_name">#8c8c8c</color>
+    <color name="year">#4a4a4a</color>
 </resources>

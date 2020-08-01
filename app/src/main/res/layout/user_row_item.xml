@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:background="@drawable/user_row_item_bg"
     android:clickable="true"
     android:paddingBottom="@dimen/row_padding"
     android:paddingLeft="@dimen/activity_margin"
@@ -14,28 +14,69 @@
     <ImageView
         android:id="@+id/thumbnail"
         android:layout_width="@dimen/thumbnail"
-        android:layout_height="@dimen/thumbnail"
+        android:layout_height="120dp"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/row_padding" />
 
     <TextView
         android:id="@+id/name"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@id/thumbnail"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/colorPrimary"
+        android:text="NAME"
+        android:ems="10"
+        android:textSize="@dimen/name"
+        tools:ignore="SpUsage" />
+
+
+    <TextView
+        android:id="@+id/recycler_view_quality_text"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:layout_alignBaseline="@id/name"
+        android:background="@drawable/green_bordered_bg"
+        android:gravity="center"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="720P"
+        android:textColor="@color/colorPrimary"
+        android:textSize="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/recycler_view_year_text"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/thumbnail"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/contact_name"
-        android:textSize="@dimen/contact_name"
+        android:textColor="@color/year"
+        android:layout_below="@id/name"
+        android:text="(2010)"
+        android:textSize="13dp"
         tools:ignore="SpUsage" />
 
     <TextView
-        android:id="@+id/url"
+        android:id="@+id/full_name"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
+        android:layout_below="@id/recycler_view_year_text"
         android:layout_toEndOf="@id/thumbnail"
-        android:textColor="@color/contact_number"
-        android:textSize="@dimen/contact_number"
+        android:text="full name of the movie (2010)"
+        android:textColor="@color/full_name"
+        android:textSize="@dimen/full_name"
         tools:ignore="SpUsage" />
 
 </RelativeLayout>

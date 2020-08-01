@@ -13,9 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 
-/**
- * Created by ravi on 17/11/17.
- */
 
 public class MyDividerItemDecoration  extends RecyclerView.ItemDecoration {
 
